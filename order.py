@@ -3,6 +3,7 @@ import uuid
 import enum
 import datetime
 import datetimeHelper
+import xmlHelper
 
 timedelta = datetime.timedelta(seconds = 5)
 basetime = datetime.datetime.strptime('2014-12-30 10:58:19', '%Y-%m-%d %H:%M:%S')
@@ -20,11 +21,10 @@ def createSportOrder(order):
 		"DQMaxMove": str(10),
 		"Lot": str(2)
 	}
-	for k, v in attrs.items():
-		order.set(k,v)
+	xmlHelper.setAttrs(order,attrs)
 
-def createCloseOrder(order):
-	atts = {
+def createCloseOrder(order, openOrderID):
+	attrs = {
 		'ID': str(uuid.uuid1()),
 		'PriceIsQuote': 'false',
 		'PriceTimestamp': datetimeHelper.toStandardStr(basetime - timedelta),
@@ -36,11 +36,14 @@ def createCloseOrder(order):
 		"DQMaxMove": str(10),
 		"Lot": str(1)
 	}
-	for k, v in atts.items():
-		order.set(k,v)
+	xmlHelper.setAttrs(order,attrs)
+	orderRelaitonElement = ET.SubElement(order,'OrderRelation')
+	setAttrs(orderRelaitonElement, openOrderID)
 
-def createOrderRelation(orderRelation):
-	atts={
-	
+def setAttrs(orderRelation, openOrderID):
+	attrs={
+		'OpenOrderID': openOrderID,
+		'ClosedLot': '1'
 	}
+	xmlHelper.setAttrs(orderRelation, attrs)
 

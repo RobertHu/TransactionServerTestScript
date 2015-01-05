@@ -6,25 +6,36 @@ import datetimeHelper
 import order
 
 basetime = datetime.datetime.now()
-endtime = basetime + datetime.timedelta(seconds = 1000)
+endtime = basetime + datetime.timedelta(seconds = 5000)
 
 
 def createCloseSportTran():
+	tran = createTransactionElement([('OrderType',enum.OrderType.SpotTrade)])
+	orderElement = createOrderElement(tran)
+	order.createCloseOrder(orderElement,'')
+	return toXml(tran)
 
 
 
 def createSportTran():
-	tran = createTransactionElement()
-	attrs = getTransactionAttrsDict()
-	attrs.update(OrderType = enum.OrderType.SpotTrade)
-	for k, v in attrs.items():
-		tran.set(k,v)
+	tran = createTransactionElement([('OrderType',enum.OrderType.SpotTrade)])
 	orderElement = createOrderElement(tran)
 	order.createSportOrder(orderElement)
-	return ET.tostring(tran, encoding='utf-8', method='xml')
+	return toXml(tran)
 
-def createTransactionElement():
-	return ET.Element('Transaction')
+
+def toXml(element):
+	return ET.tostring(element, encoding='utf-8', method='xml')	
+
+#settings like [(k1,v1),(k2,v2),...]
+def createTransactionElement(settings):
+	tran = ET.Element('Transaction')
+	attrs = getTransactionAttrsDict()
+	attrs.update(settings)
+	for k, v in attrs.items():
+		tran.set(k,v)
+	return tran
+
 
 def createOrderElement(tran):
 	return ET.SubElement(tran,'Order')
@@ -43,3 +54,4 @@ def getTransactionAttrsDict():
 		'SubmitTime': datetimeHelper.toStandardStr(basetime),
 		'SubmitorID': 'CB58B47D-A705-42DD-9308-6C6B26CE79A7'
 	}
+	return attrs
