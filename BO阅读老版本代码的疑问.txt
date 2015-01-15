@@ -1,0 +1,18 @@
+1、HitCount既包含Order在成交之前的撞线次数，也包括成交之后， BO（按照所
+   
+   设定的时间BinaryOptionFrequency来计算下一次的撞线成交时间）所成交的
+
+   次数
+
+
+2、HitPrice的获取方式。
+   1. 若TransactionServer运行过程中有重启， 则会导致所计算出的Order.NextHitTime < 
+   TransactionServer.Now，此时需要从数据库获取对应时间点（order.NextHitTime）的历史价格
+
+   2. 正常情况下，直接取当前市价
+
+
+3、BetDirection的计算。
+   通过将order.BinaryOptionBetOption 右移order.HitCount位，然后取最后一位为结果，如果为1，
+
+   则为Up,  为0则为Down

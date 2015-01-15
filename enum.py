@@ -31,6 +31,7 @@ class OrderType:
     MultipleClose = '8'
     MarketToLimit = '9'
     StopLimit = '10' 
+    BinaryOption = '12'
 
 
 class TradeOption:
