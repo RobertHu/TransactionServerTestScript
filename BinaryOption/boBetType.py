@@ -4,11 +4,11 @@ import uuid
 import xmlHelper
 
 def createXmlNode(item):
-	id = str(uuid.uuid1())
+	id = '7EF0B4D0-B003-4196-AE57-0ED955CF9A28'
 	attrs = {
 		'ID': id,
-		'Code': 'BOBet1',
-		'HitCount': '2'   #代表买涨跌，撞中的次数
+		'Code': 'BOBet01',
+		'HitCount': '1'   #代表买涨跌，撞中的次数
 	}
 	xmlHelper.setAttrs(item,attrs)
 	return id

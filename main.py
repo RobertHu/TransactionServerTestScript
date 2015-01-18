@@ -10,11 +10,12 @@ except ImportError:
     sys.path.append(os.path.join(ROOT_PATH, '..'))
     import Test
 
-from Test.BinaryOption import boOrder, transacton as boTran
+from Test.BinaryOption import boFacade
 
 
 from Test import transaction
 from Test import xmlHelper
+
 
 if __name__ == '__main__':
 	# openOrderId, xmlTran = transaction.createOpenSportTran()
@@ -23,5 +24,9 @@ if __name__ == '__main__':
 	# print '------------close tran ---------'
 	# print transaction.createCloseSportTran(openOrderId)
 
-	print boTran.createOpenTransactoin()
+	facade = boFacade.Facade()
+	#print facade.generateBoPolicyDetailXml()
+	print facade.generateTwoTranXml()
+	#print facade.generateOneTranXml()
+
 
