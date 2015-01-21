@@ -16,6 +16,8 @@ from Test.BinaryOption import boFacade
 from Test import transaction
 from Test import xmlHelper
 
+from Test.testData import settingData
+
 
 if __name__ == '__main__':
 	# openOrderId, xmlTran = transaction.createOpenSportTran()
@@ -24,9 +26,13 @@ if __name__ == '__main__':
 	# print '------------close tran ---------'
 	# print transaction.createCloseSportTran(openOrderId)
 
-	facade = boFacade.Facade()
+	# facade = boFacade.Facade()
 	#print facade.generateBoPolicyDetailXml()
-	print facade.generateTwoTranXml()
+	# print facade.generateTwoTranXml()
 	#print facade.generateOneTranXml()
+
+
+	SettingRepository = settingData.SettingRepository()
+	print SettingRepository.toXml()
 
 

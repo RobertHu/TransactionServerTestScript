@@ -1,0 +1,26 @@
+
+
+
+
+import re
+
+if __name__ == '__main__':
+
+
+	# header = 'ID	Code	OriginCode	Description	Category	IsActive	BeginTime	EndTime	DayPolicyID	WeekPolicyID	LastAcceptTimeSpan	NumeratorUnit	Denominator	IsSinglePrice	IsNormal	OriginType	OriginInactiveTime	AlertVariation	NormalWaitTime	AlertWaitTime	CurrencyID	CommissionFormula	LevyFormula	MarginFormula	PLValueDay	TradePLFormula	InterestFormula	InterestPolicyID	InterestYearDays	OrderTypeMask	MaxDQLot	MaxOtherLot	DQQuoteMinLot	AutoDQMaxLot	AutoLmtMktMaxLot	AcceptDQVariation	AcceptLmtVariation	CancelLmtVariation	MaxMinAdjust	IsBetterPrice	HitTimes	PenetrationPoint	PriceValidTime	UpdatePersonID	UpdateTime	MappingCode	ContractMonth	DailyMaxMove	ContractCurrency	BaseCurrency	DeliveryDay	MOCSession	UseSettlementPriceForInterest	PriceConvertFomulaType	PriceConvertFactor	PriceOriginCode1	PriceOriginCode2	MIT	IsAutoFill	IsPriceEnabled	IsAutoEnablePrice	ExternalExchangeCode	UnderlyingInstrument	SpotPaymentTime	NearInstrumentForSpreadTrading	DistantInstrumentForSpreadTrading	AcceptIfDoneVariation	AllowedSpotTradeOrderSides	CanPlacePendingOrderAtAnyTime	AutoDQDelay	Sequence	SummaryGroupId	SummaryUnit	HolidayAlertDayPolicyID	SummaryQuantity	AutoAcceptMaxLot	AutoCancelMaxLot	UnitId	HitPriceVariationForSTP	AcceptCloseLmtVariation	AllowedNewTradeSides	PhysicalLotDecimal	DeliveryTimeBeginDay	DeliveryTimeEndDay	UpdateAppType	DeliverySpecificationId	InstrumentIcon	ShowPriceSuperscript	EnhancedPriceDigit'
+
+	# headCols = re.split('\t', header)
+	# headerDict = dict()
+	# for n, v in enumerate(headCols):
+	# 	headerDict[v] = n
+
+	# print headerDict['BeginTime'], headerDict['EndTime']
+
+
+
+	tradePolicyDetailHeaders = 'TradePolicyID	InstrumentID	IsTradeActive	ContractSize	CommissionOpen	CommissionCloseD	CommissionCloseO	LevyOpen	LevyClose	MarginD	MarginO	MarginLockedD	MarginLockedO	InterestCut	InterestRateID	QuotationMask	UpdatePersonID	UpdateTime	AlertLevel1	AlertLevel2	AlertLevel3	SendLotMultipleForJFX	AlertLevel1Lock	AlertLevel2Lock	AlertLevel3Lock	NecessaryRound	MinOpen	OpenMultiplier	MinClose	CloseMultiplier	Option	IsAcceptNewStop	IsAcceptNewMOOMOC	IsAcceptNewLimit	DQMaxMove	PairRelationFactor	GoodTillDate	GoodTillMonthDayOrder	GoodTillMonthSession	GoodTillMonthGTM	GoodTillMonthGTF	DefaultLot	MultipleCloseAllowed	MaxOpenDay	AllowIfDone	CanPlaceMatchOrder	MinCommissionOpen	MinCommissionClose	InstrumentMappingCode	AlertLevel4	AlertLevel4Lock	OIPercent	ChangePlacedOrderAllowed	MarginSpot	MarginSpotSpread	RiskCredit	AccountMaxOpenLot	AllowNewLimitStopSameTime	AllowNewOCO	VolumeNecessaryId	BuyInterestValueDay	SellInterestValueDay	PhysicalValueMatureDay	InstalmentPolicyId	AllowedPhysicalTradeSides	DiscountOfOdd	ValueDiscountAsMargin	PhysicalMinDeliveryQuantity	PhysicalDeliveryIncremental	DeliveryChargeID	InstalmentPledgeDiscount	ShortSellDownPayment	PartPaidPhysicalNecessary	PaymentForm	DeliveryPointGroupId	PrepaymentInterestRateId	PhysicalPaymentDiscountID	BOPolicyID'
+	print re.split('\t', tradePolicyDetailHeaders)
+
+
+
+
