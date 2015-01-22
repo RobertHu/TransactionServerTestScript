@@ -26,13 +26,13 @@ if __name__ == '__main__':
 	# print '------------close tran ---------'
 	# print transaction.createCloseSportTran(openOrderId)
 
-	# facade = boFacade.Facade()
-	#print facade.generateBoPolicyDetailXml()
-	# print facade.generateTwoTranXml()
-	#print facade.generateOneTranXml()
+	facade = boFacade.Facade()
+	# print facade.generateBoPolicyDetailXml()
+	print facade.generateTwoTranXml()
+	print facade.generateOneTranXml()
 
 
-	SettingRepository = settingData.SettingRepository()
-	print SettingRepository.toXml()
+	# SettingRepository = settingData.SettingRepository()
+	# print SettingRepository.toXml()
 
 

@@ -4,34 +4,19 @@ from Test.util import singleton
 import re
 from Test import xmlHelper
 import os
+import abc
+import settingAccount
+import entity
 
 
-class Entity(object):
 
-	def __init__(self, headerDict, cols):
-		self.headerDict = headerDict
-		self.cols = cols
-
-	def getColumnValue(self, colName):
-		index = self.headerDict[colName]
-		colValue = self.cols[index].strip()
-		if colValue == 'NULL':
-			return None
-		return colValue
-
-
-	def setAttrsToNode(self, attrs, node):
-		for k, v in attrs.items():
-			node.set(k, v)
-
-
-class TradePolicyDetail(Entity):
+class TradePolicyDetail(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(TradePolicyDetail, self).__init__(headerDict, cols)
 
 	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'TradePolicyDetail')
+		node =self.createNode('TradePolicyDetail',parentNode)
 		attrs = {
 			'TradePolicyID': self.getColumnValue('TradePolicyID'),
 			'InstrumentID': self.getColumnValue('InstrumentID'),
@@ -45,7 +30,7 @@ class TradePolicyDetail(Entity):
 
 
 
-class TradePolicy(Entity):
+class TradePolicy(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(TradePolicy, self).__init__(headerDict, cols)
@@ -60,7 +45,7 @@ class TradePolicy(Entity):
 
 
 
-class Currency(Entity):
+class Currency(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(Currency, self).__init__(headerDict, cols);
@@ -80,7 +65,7 @@ class Currency(Entity):
 		return node
 
 
-class CurrencyRate(Entity):
+class CurrencyRate(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(CurrencyRate, self).__init__(headerDict, cols)
@@ -101,7 +86,7 @@ class CurrencyRate(Entity):
 		return node
 
 
-class Customer(Entity):
+class Customer(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(Customer, self).__init__(headerDict, cols)
@@ -121,7 +106,7 @@ class Customer(Entity):
 		self.setAttrsToNode(attrs, node)
 		return node
 
-class Instrument(Entity):
+class Instrument(entity.Entity):
 
 	def __init__(self, headerDict, cols):
 		super(Instrument, self).__init__(headerDict, cols)
@@ -165,6 +150,7 @@ class SettingRepository(object):
 		self.instruments = []
 		self.tradePolicies = []
 		self.tradePolicyDetails = []
+		self.accounts = []
 		self.entityCols.append(self.currencies)
 		self.entityCols.append(self.currencyRates)
 		self.entityCols.append(self.customers)
@@ -172,6 +158,7 @@ class SettingRepository(object):
 		self.entityCols.append(self.tradePolicies)
 		self.entityCols.append(self.tradePolicyDetails)
 		self.loadEntities()
+		self.entityCols.append(self.accounts)
 
 	def loadEntities(self):
 		self.loadCurrency()
@@ -180,6 +167,7 @@ class SettingRepository(object):
 		self.loadInstruments()
 		self.loadTradePolicies()
 		self.loadTradePolicyDetails()
+		self.loadAccounts()
 
 	def loadCurrency(self):
 		for header, cols in self.loadFromFile('currencyData.txt'):
@@ -204,6 +192,11 @@ class SettingRepository(object):
 	def loadTradePolicyDetails(self):
 		for header, cols in self.loadFromFile('tradePolicyDetailData.txt'):
 			self.tradePolicyDetails.append(TradePolicyDetail(header, cols))
+
+
+	def loadAccounts(self):
+		for header, cols in self.loadFromFile('accountData.txt'):
+			self.accounts.append(settingAccount.Account(header, cols))
 
 
 	def loadFromFile(self, fileName):
