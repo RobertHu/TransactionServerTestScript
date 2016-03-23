@@ -17,5 +17,6 @@ def createTemplateDict(tradeOption,isOpen, isBuy,setPrice,lot):
 		"SetPriceMaxMovePips": '0',
 		"DQMaxMove": '10',
 		"Lot": lot,
+		"LotBalance": lot
 	}
 	return attrs

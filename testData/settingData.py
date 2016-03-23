@@ -8,6 +8,7 @@ import abc
 import settingAccount
 import entity
 
+from Test.common import dbDataParser
 
 
 class TradePolicyDetail(entity.Entity):
@@ -15,18 +16,16 @@ class TradePolicyDetail(entity.Entity):
 	def __init__(self, headerDict, cols):
 		super(TradePolicyDetail, self).__init__(headerDict, cols)
 
-	def toXml(self, parentNode):
-		node =self.createNode('TradePolicyDetail',parentNode)
-		attrs = {
-			'TradePolicyID': self.getColumnValue('TradePolicyID'),
-			'InstrumentID': self.getColumnValue('InstrumentID'),
-			'ContractSize': self.getColumnValue('ContractSize')
+	def getXmlTagName(self):
+		return 'TradePolicyDetail'
+
+	def getAttrDict(self):
+		return {
+		'TradePolicyID': self.getColumnValue('TradePolicyID'),
+		'InstrumentID': self.getColumnValue('InstrumentID'),
+		'ContractSize': self.getColumnValue('ContractSize')
 		}
-		columnBoPolicy = self.getColumnValue('BOPolicyID')
-		if columnBoPolicy is not None:
-			attrs.update(BOPolicyID = columnBoPolicy )
-		self.setAttrsToNode(attrs, node)
-		return node
+
 
 
 
@@ -35,13 +34,15 @@ class TradePolicy(entity.Entity):
 	def __init__(self, headerDict, cols):
 		super(TradePolicy, self).__init__(headerDict, cols)
 
-	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'TradePolicy')
-		attrs = {
+	def getXmlTagName(self):
+		return 'TradePolicy'
+
+	def getAttrDict(self):
+		return {
 			'ID': self.getColumnValue('ID'),
 			'Code': self.getColumnValue('Code')
 		}
-		self.setAttrsToNode(attrs, node)
+
 
 
 
@@ -54,15 +55,50 @@ class Currency(entity.Entity):
 		self.decimals = self.getColumnValue('Decimals')
 
 
-	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'Currency')
-		attrs = {
+	def getXmlTagName(self):
+		return 'Currency'
+
+	def getAttrDict(self):
+		return {
 			'ID': self.id,
 			'Code': self.code,
 			'Decimals': self.decimals
 		}
-		self.setAttrsToNode(attrs, node)
-		return node
+
+class SystemParameter(entity.Entity):
+
+	def __init__(self, headerDict, cols):
+		super(SystemParameter, self).__init__(headerDict, cols);
+
+	def getXmlTagName(self):
+		return 'SystemParameter'
+
+	def getAttrDict(self):
+		return	{
+			'TradeDayBeginTime': self.getColumnValue('TradeDayBeginTime'),
+			'MooMocAcceptDuration': self.getColumnValue('MooMocAcceptDuration'),
+			'MooMocCancelDuration': self.getColumnValue('MooMocCancelDuration'),
+			'DQDelayTimeOption': self.getColumnValue('DQDelayTimeOption'),
+			'PlaceCheckType': self.getColumnValue('PlaceCheckType'),
+			'NeedsFillCheck': self.getColumnValue('NeedsFillCheck'),
+			'CanDealerViewAccountInfo': self.getColumnValue('CanDealerViewAccountInfo'),
+			'UseNightNecessaryWhenBreak': self.getColumnValue('UseNightNecessaryWhenBreak'),
+			'BalanceDeficitAllowPay': self.getColumnValue('BalanceDeficitAllowPay'),
+			'IncludeFeeOnRiskAction': self.getColumnValue('IncludeFeeOnRiskAction'),
+			'IncludeFeeOnRiskAction': self.getColumnValue('IncludeFeeOnRiskAction'),
+			'EnableExportOrder': self.getColumnValue('EnableExportOrder'),
+			'EnableEmailNotify': self.getColumnValue('EnableEmailNotify'),
+			'EmailNotifyChangePassword': self.getColumnValue('EmailNotifyChangePassword'),
+			'CurrencyRateUpdateDuration': self.getColumnValue('CurrencyRateUpdateDuration'),
+			# 'DefaultQuotePolicyId': self.getColumnValue('DefaultQuotePolicyId'),
+			'MaxPriceDelayForSpotOrder': self.getColumnValue('MaxPriceDelayForSpotOrder'),
+			'RiskActionOnPendingConfirmLimit': self.getColumnValue('RiskActionOnPendingConfirmLimit'),
+			'LmtQuantityOnMaxLotChange': self.getColumnValue('LmtQuantityOnMaxLotChange'),
+			'STPAtHitPriceOption': self.getColumnValue('STPAtHitPriceOption'),
+			'EvaluateIfDonePlacingOnStpConfirm': self.getColumnValue('EvaluateIfDonePlacingOnStpConfirm')
+		}
+
+
 
 
 class CurrencyRate(entity.Entity):
@@ -74,16 +110,16 @@ class CurrencyRate(entity.Entity):
 		self.rateIn = self.getColumnValue('RateIn')
 		self.rateOut = self.getColumnValue('RateOut')
 
-	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'CurrencyRate')
-		attrs = {
+	def getXmlTagName(self):
+		return 'CurrencyRate'
+
+	def getAttrDict(self):
+		return {
 			'SourceCurrencyID': self.sourceCurrency,
 			'TargetCurrencyID': self.targetCurrency,
 			'RateIn': self.rateIn,
 			'RateOut': self.rateOut
 		}
-		self.setAttrsToNode(attrs, node)
-		return node
 
 
 class Customer(entity.Entity):
@@ -95,16 +131,16 @@ class Customer(entity.Entity):
 		self.publicQuotePolicyId = self.getColumnValue('PublicQuotePolicyID')
 		self.privateQuotePolicyId = self.getColumnValue('PrivateQuotePolicyID')
 
-	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'Customer')
-		attrs = {
+	def getXmlTagName(self):
+		return 'Customer'
+
+	def getAttrDict(self):
+		return {
 			'ID': self.id,
 			'Name': self.name,
 			'PublicQuotePolicyID': self.publicQuotePolicyId,
 			'PrivateQuotePolicyID': self.privateQuotePolicyId
 		}
-		self.setAttrsToNode(attrs, node)
-		return node
 
 class Instrument(entity.Entity):
 
@@ -117,10 +153,13 @@ class Instrument(entity.Entity):
 		self.endTime = self.getColumnValue('EndTime')
 		self.numeratorUnit = self.getColumnValue('NumeratorUnit')
 		self.denominator = self.getColumnValue('Denominator')
+		self.category = self.getColumnValue('Category')
 
-	def toXml(self, parentNode):
-		node = ET.SubElement(parentNode, 'Instrument')
-		attrs = {
+	def getXmlTagName(self):
+		return "Instrument"
+
+	def getAttrDict(self):
+		return {
 			'ID': self.id,
 			'Code': self.code,
 			'Category': self.category,
@@ -129,101 +168,47 @@ class Instrument(entity.Entity):
 			'DayOpenTime': self.beginTime,
 			'DayCloseTime': self.endTime,
 			'CurrencyID': self.getColumnValue('CurrencyID'),
-			'IsActive': self.getColumnValue('IsActive')
+			'IsActive': self.getColumnValue('IsActive'),
+			'Category': self.category
 		}
-		self.setAttrsToNode(attrs, node)
-		return node
 
 
 
+class  SettingParameter(object):
+	"""docstring for  SettingParameter"""
+	def __init__(self, fileName, modelClass):
+		super(SettingParameter, self).__init__()
+		self.fileName = fileName
+		self.modelClass = modelClass
+		self.models = []
 
-@singleton.singleton
-class SettingRepository(object):
 
-	def __init__(self):
-		self.re =  re.compile('\t')
-		self.dir = os.path.dirname(__file__)
-		self.entityCols = []
-		self.currencies = []
-		self.currencyRates = []
-		self.customers = []
-		self.instruments = []
-		self.tradePolicies = []
-		self.tradePolicyDetails = []
-		self.accounts = []
-		self.entityCols.append(self.currencies)
-		self.entityCols.append(self.currencyRates)
-		self.entityCols.append(self.customers)
-		self.entityCols.append(self.instruments)
-		self.entityCols.append(self.tradePolicies)
-		self.entityCols.append(self.tradePolicyDetails)
+
+class SettingRepository(dbDataParser.Parser):
+
+	def __init__(self, parameters):
+		super(SettingRepository, self).__init__(os.path.dirname(__file__))
+		self.settingParameters = self.loadSettingParameters(parameters)
 		self.loadEntities()
-		self.entityCols.append(self.accounts)
+
+	def loadSettingParameters(self, parameters):
+		result = []
+		for eachParameter in parameters:
+			fileName, modelClass = eachParameter
+			result.append(SettingParameter(fileName,modelClass))
+		return result
 
 	def loadEntities(self):
-		self.loadCurrency()
-		self.loadCurrencyRates()
-		self.loadCustomer()
-		self.loadInstruments()
-		self.loadTradePolicies()
-		self.loadTradePolicyDetails()
-		self.loadAccounts()
-
-	def loadCurrency(self):
-		for header, cols in self.loadFromFile('currencyData.txt'):
-			self.currencies.append(Currency(header, cols))
-
-	def loadCurrencyRates(self):
-		for header, cols in self.loadFromFile('currencyRateData.txt'):
-			self.currencyRates.append(CurrencyRate(header, cols))
-
-	def loadCustomer(self):
-		for header, cols in self.loadFromFile('customerData.txt'):
-			self.customers.append(Customer(header, cols))
-
-	def loadInstruments(self):
-		for header, cols in self.loadFromFile('instrumentData.txt'):
-			self.instruments.append(Instrument(header, cols))
-
-	def loadTradePolicies(self):
-		for header, cols in self.loadFromFile('tradePolicyData.txt'):
-			self.tradePolicies.append(TradePolicy(header, cols))
-
-	def loadTradePolicyDetails(self):
-		for header, cols in self.loadFromFile('tradePolicyDetailData.txt'):
-			self.tradePolicyDetails.append(TradePolicyDetail(header, cols))
-
-
-	def loadAccounts(self):
-		for header, cols in self.loadFromFile('accountData.txt'):
-			self.accounts.append(settingAccount.Account(header, cols))
-
-
-	def loadFromFile(self, fileName):
-		filePath = os.path.join(self.dir, fileName)
-		f = open(filePath, 'r')
-		headerDict = self.parseHeaders(f.readline())
-		for line in f:
-			if line is not None:
-				cols = self.re.split(line)
-				yield (headerDict ,cols)
-
-	def parseHeaders(self, headerLine):
-		headerCols = self.re.split(headerLine)
-		headerDict = dict()
-		for n, v in enumerate(headerCols):
-			headerDict[v.strip()] = n
-		return headerDict
-
-
+		for eachParameter in self.settingParameters:
+			self.buildEntitiesCommon(eachParameter.fileName, eachParameter.models, eachParameter.modelClass)
 
 	def toXml(self):
 		root = ET.Element('Settings')
 		addMethodRoot = ET.SubElement(root, 'Add')
 
-		for cols in self.entityCols:
-			for m in cols:
-				m.toXml(addMethodRoot)
+		for eachParameter in self.settingParameters:
+			for eachModel in eachParameter.models:
+				eachModel.toXml(addMethodRoot)
 		return xmlHelper.toXml(root)
 
 

@@ -17,6 +17,8 @@ from Test import transaction
 from Test import xmlHelper
 
 from Test.testData import settingData
+from testData import settingAccount
+from testData import entity
 
 
 if __name__ == '__main__':
@@ -26,13 +28,30 @@ if __name__ == '__main__':
 	# print '------------close tran ---------'
 	# print transaction.createCloseSportTran(openOrderId)
 
-	facade = boFacade.Facade()
+	# facade = boFacade.Facade()	
+	# print facade.generateBoBetTypesXml()
 	# print facade.generateBoPolicyDetailXml()
-	print facade.generateTwoTranXml()
-	print facade.generateOneTranXml()
+	# print facade.toXml()
+
+	pameters = [('instrumentData.txt', settingData.Instrument)]
+	pameters.append(('currencyData.txt', settingData.Currency))
+	pameters.append(('currencyRateData.txt', settingData.CurrencyRate))
+	pameters.append(('customerData.txt', settingData.Customer))
+	pameters.append(('tradePolicyDetailData.txt', settingData.TradePolicyDetail))
+	pameters.append(('tradePolicyData.txt', settingData.TradePolicy))
+	pameters.append(('accountData.txt', settingAccount.Account))
+	pameters.append(('systemParameter.txt', settingData.SystemParameter))
+	pameters.append(('organizationData.txt', entity.Organization))
+	pameters.append(('orderTypeData.txt', entity.OrderType))
+	pameters.append(('tradeDayData.txt', entity.TradeDay))
 
 
-	# SettingRepository = settingData.SettingRepository()
-	# print SettingRepository.toXml()
+	SettingRepository = settingData.SettingRepository(pameters)
+	print SettingRepository.toXml()
+
+	# openOrderId, tran = transaction.createOpenSportTran()
+	#print tran
+	#closetran = transaction.createCloseSportTran(openOrderId)
+	#print closetran
 
 

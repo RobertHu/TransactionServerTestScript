@@ -48,6 +48,7 @@ class Repository(object):
 				key = self.createKey(cols)
 				self.add(key, cols)
 				self.itemcount += 1
+				
 	def createKey(self, cols):
 		policyId = cols[0]
 		betTypeId = cols[1]

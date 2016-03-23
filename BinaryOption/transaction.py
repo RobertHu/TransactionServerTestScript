@@ -7,31 +7,37 @@ import boOrder, boBetType
 
 class Transaction(object):
 
-	def __init__(self):
+	def __init__(self, root, boBetTypeId):
 		self.name = 'Transaction'
 		self.orderName = 'Order'
 		self.boBetTypeName = 'BOBetType'
+		self.root = root
+		self.boBetTypeId = boBetTypeId
 
+	def createForGeneral(self):
+		node = self.createNode('General')
+		self.createTranCommon(node)
 
-	def createOneTransaction(self, root):
-		boBetTypeId = self.createBOBetType(root)
-		self.createTranCommon(root, boBetTypeId)
+	def createForSort(self):
+		node = self.createNode('Sort')
+		self.createTranCommon(node)
+		self.createTranCommon(node)
 
-	def createTrans(self):
-		root = ET.Element('Transactions')
-		boBetTypeId = self.createBOBetType(root)
-		self.createTranCommon(root, boBetTypeId)
-		self.createTranCommon(root, boBetTypeId)
-		return root
+	def createHitTran(self):
+		node = self.createNode('Hit')
+		return self.createTranCommon(node)
 
-	def createTranCommon(self, root,boBetTypeId):
+	def createCloseTran(self):
+		node = self.createNode('Close')
+		return self.createTranCommon(node)
+
+	def createTranCommon(self, root):
 		tranElement = ET.SubElement(root,self.name)
 		attrs = tranUtil.getTransactionAttrsDict(enum.OrderType.BinaryOption)
 		for k, v in attrs.items():
 			tranElement.set(k,v)
 		orderElement = ET.SubElement(tranElement, self.orderName)
-		boOrder.createOpenOrder(orderElement, boBetTypeId)
+		boOrder.createOpenOrder(orderElement, self.boBetTypeId)
 
-	def createBOBetType(self, parent):
-		betType = ET.SubElement(parent, self.boBetTypeName)
-		return boBetType.createXmlNode(betType)
+	def createNode(self, nodeName):
+		return ET.SubElement(self.root, nodeName)
